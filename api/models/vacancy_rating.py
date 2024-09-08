@@ -12,7 +12,7 @@ class VacancyRating(db.Model, ISO8601SerializerMixin):
     comment = db.Column(db.String(256), nullable=False)
     rating = db.Column(db.Integer())
 
-    employer = db.relationship("Vacancy", foreign_keys=[vacancy_id])
+    vacancy = db.relationship("Vacancy", foreign_keys=[vacancy_id])
     user = db.relationship("User", foreign_keys=[user_id], backref="vacancy_ratings")
 
     def to_dict(self, *args, **kwargs):

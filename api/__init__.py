@@ -22,43 +22,23 @@ app.config["SQLALCHEMY_DATABASE_URI"] = f"postgresql://{pg_user}:{pg_pass}@{pg_h
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app, session_options={"autoflush": False})
 from api.models import *
-# db.create_all()
+
 db.init_app(app)
 
 api = Api(app)
 migrate = Migrate(app, db)
 
-usr = User(name="name", email="email")
-emp = Employer(name="comp")
-empRat = EmployerRating(comment="super cool", rating=10)
-emp.ratings.append(empRat)
-emp.users.append(usr)
-usr.employer_ratings.append(empRat)
-print(emp.users, emp.ratings, usr.employer_ratings)
-# with app.app_context():
+# usr = User(name="name", email="email")
+# emp = Employer(name="comp")
+# empRat = EmployerRating(comment="super cool", rating=10)
+# emp.ratings.append(empRat)
+# emp.users.append(usr)
+# usr.employer_ratings.append(empRat)
+# print(emp.users, emp.ratings, usr.employer_ratings, emp.ratings_by_users)
 
-# from api.resources.users import UserResource, UserListResource
-# api.add_resource(UserResource, "/api/users/<int:user_id>")
-# api.add_resource(UserListResource, "/api/users")
-#
-# from api.resources.games import GameResource, GameListResource
-# api.add_resource(GameResource, "/api/games/<int:game_id>")
-# api.add_resource(GameListResource, "/api/games")
-#
-# from api.resources.requests import RequestResource, RequestListResource
-# api.add_resource(RequestResource, "/api/requests/<int:request_id>")
-# api.add_resource(RequestListResource, "/api/requests")
-#
-# from api.resources.player_teams import PlayerTeamResource, PlayerTeamListResource
-# api.add_resource(PlayerTeamResource, "/api/player_teams/<int:player_team_id>")
-#
-# from api.resources.engine.grants import GrantResource, GrantListResource
-# api.add_resource(GrantResource, "/api/engine/grants/<int:grant_id>")
-# api.add_resource(GrantListResource, "/api/engine/grants")
-#
-# from api.resources.engine.scientists import ScientistResource, ScientistListResource
-# api.add_resource(ScientistResource, "/api/engine/scientists/<int:grant_id>")
-# api.add_resource(ScientistListResource, "/api/engine/scientists")
-#
+from api.resources.user import UserResource, UserListResource
+
+api.add_resource(UserResource, "/api/users/<int:user_id>")
+api.add_resource(UserListResource, "/api/users")
 
 from api import controllers

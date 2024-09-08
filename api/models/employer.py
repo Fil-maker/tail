@@ -24,9 +24,13 @@ class Employer(db.Model, ISO8601SerializerMixin):
                             backref=db.backref("employers", lazy=True), cascade="all")
     ratings = db.relationship("EmployerRating", secondary=ratings_to_employers, lazy="subquery",
                               backref=db.backref("employers", lazy=True), cascade="all")
-    # vacancies = db.relationship("Vacancy", backref="employer", lazy=True, cascade="all")
 
     def to_dict(self, *args, **kwargs):
         if "only" in kwargs:
             return super(Employer, self).to_dict(*args, **kwargs)
-        return super(Employer, self).to_dict(*args, **kwargs, only=["id", "name"])
+        ans = super(Employer, self).to_dict(*args, **kwargs, only=["id", "name"])
+        ans["ratings"] = []
+        ans["score"] = sum(map(lambda x: x.rating, self.ratings)) / len(self.ratings)
+        for rating in self.ratings:
+            ans["ratings"].append(rating.to_dict())
+        return ans

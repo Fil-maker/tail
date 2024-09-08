@@ -16,7 +16,7 @@ class Vacancy(db.Model, ISO8601SerializerMixin):
     name = db.Column(db.String(64), nullable=False)
     description = db.Column(db.String(256), nullable=False)
 
-    employer = db.relationship("Employer", foreign_keys=[employer_id])
+    employer = db.relationship("Employer", foreign_keys=[employer_id], backref="vacancies")
     vacancy_ratings = db.relationship("VacancyRating", secondary=ratings_to_vacancies, lazy="subquery",
                                       backref=db.backref("employers", lazy=True), cascade="all")
 
