@@ -11,7 +11,7 @@ class Message(db.Model, ISO8601SerializerMixin):
     content = db.Column(db.String(), nullable=False)
 
     user = db.relationship("User", foreign_keys=[user_id])
-    chat = db.relationship("User", foreign_keys=[chat_id], backref="messages")
+    chat = db.relationship("Chat", foreign_keys=[chat_id], backref="messages")
 
     def to_dict(self, *args, **kwargs):
         if "only" in kwargs:

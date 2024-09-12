@@ -14,7 +14,7 @@ class Chat(db.Model, ISO8601SerializerMixin):
     id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
     name = db.Column(db.String(64), nullable=False)
 
-    users = db.relationship("VacancyRating", secondary=users_to_chats, lazy="subquery",
+    users = db.relationship("User", secondary=users_to_chats, lazy="subquery",
                             backref=db.backref("chats", lazy=True), cascade="all")
 
     def to_dict(self, *args, **kwargs):

@@ -23,12 +23,17 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app, session_options={"autoflush": False})
 from api.models import *
 
-db.init_app(app)
+with app.app_context():
+    db.create_all()
+# db.init_app(app)
 
 api = Api(app)
 migrate = Migrate(app, db)
 
-# usr = User(name="name", email="email")
+# from api.services.chat import add_user
+usr = User(name="name", email="email")
+cht = Chat(name="nameChat")
+# add_user(usr.id, cht.id)
 # emp = Employer(name="comp")
 # empRat = EmployerRating(comment="super cool", rating=10)
 # emp.ratings.append(empRat)

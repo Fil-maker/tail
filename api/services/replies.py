@@ -10,20 +10,15 @@ def get_reply(reply_id=None, to_dict=True):
     return [item.to_dict() if to_dict else item for item in db.session.query(Reply).all()]
 
 
-def create_reply(user_id, employer_id, vacancy_id, resume_link, cv_link):
+def create_reply(user_id, vacancy_id, resume_link, cv_link):
     if db.session.query(Reply).filter(Reply.vacancy_id == vacancy_id).filter(Reply.user_id == user_id).first() is not None:
         raise KeyError(f"Вы уже откликались на эту должность")
     user = db.session.query(User).get(user_id)
     if user is None:
         raise KeyError(f"Пользователя не существует")
-    employer = db.session.query(Employer).get(employer_id)
-    if employer is None:
-        raise KeyError(f"Работодателя не существует")
     vacancy = db.session.query(Vacancy).get(vacancy_id)
     if vacancy is None:
         raise KeyError(f"Вакансии не существует")
-    if vacancy.employer_id != employer_id:
-        raise KeyError(f"У работодателя нет этой вакансии")
     reply = Reply()
     reply.user_id = user_id
     reply.vacancy_id = vacancy_id
