@@ -31,8 +31,8 @@ api = Api(app)
 migrate = Migrate(app, db)
 
 # from api.services.chat import add_user
-usr = User(name="name", email="email")
-cht = Chat(name="nameChat")
+# usr = User(name="name", email="email")
+# cht = Chat(name="nameChat")
 # add_user(usr.id, cht.id)
 # emp = Employer(name="comp")
 # empRat = EmployerRating(comment="super cool", rating=10)
@@ -45,5 +45,15 @@ from api.resources.user import UserResource, UserListResource
 
 api.add_resource(UserResource, "/api/users/<int:user_id>")
 api.add_resource(UserListResource, "/api/users")
+
+from api.resources.employer import EmployerResource, EmployerListResource
+
+api.add_resource(EmployerResource, "/api/employers/<int:employer_id>")
+api.add_resource(EmployerListResource, "/api/employers")
+
+from api.resources.vacancy import VacancyResource, VacancyListResource
+
+api.add_resource(VacancyResource, "/api/vacancies/<int:vacancy_id>")
+api.add_resource(VacancyListResource, "/api/vacancies")
 
 from api import controllers

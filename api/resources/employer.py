@@ -2,7 +2,7 @@ from flask import jsonify
 from flask_restful import Resource, abort
 from flask_restful.reqparse import RequestParser
 
-from api.services.employer import get_employer, create_employer
+from api.services.employer import get_employer, create_employer, add_user_to_employer
 
 
 class EmployerResource(Resource):
@@ -11,6 +11,18 @@ class EmployerResource(Resource):
         if employer is None:
             abort(404, success=False, message=f"Работодатель {employer_id} не найден")
         return jsonify({"success": True, "employer": employer})
+
+    def put(self, employer_id):
+        parser = RequestParser()
+        parser.add_argument("user_id", required=True)
+
+        kwargs = parser.parse_args(strict=True)
+        try:
+            response = add_user_to_employer(kwargs["user_id"], employer_id)
+        except KeyError as e:
+            return jsonify({"success": False, "message": str(e), "error_code": 400})
+        else:
+            return jsonify({"success": True})
 
 
 class EmployerListResource(Resource):
@@ -28,4 +40,3 @@ class EmployerListResource(Resource):
             return jsonify({"success": False, "message": str(e)}), 400
         else:
             return jsonify({"success": True, "employer": employer.to_dict()})
-        

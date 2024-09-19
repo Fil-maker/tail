@@ -24,10 +24,11 @@ class UserListResource(Resource):
         parser.add_argument("password", required=True)
 
         kwargs = parser.parse_args(strict=True)
+        print(1)
         try:
             user, token, expires = create_user(**kwargs)
         except KeyError as e:
-            return jsonify({"success": False, "message": str(e)}), 400
+            return jsonify({"success": False, "message": str(e), "error_code":400})
         else:
             return jsonify({"success": True, "user": user.to_dict(),
                             "authToken": {"token": token,

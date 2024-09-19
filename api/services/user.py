@@ -16,14 +16,14 @@ def get_user(user_id=None, to_dict=True):
 
 
 def create_user(username, email, password):
-    if db.session.query(User).filter(User.username == username).first() is not None:
-        raise KeyError(f"Пользователь  {username} уже существует")
+    if db.session.query(User).filter(User.email == email).first() is not None:
+        raise KeyError(f"Почта  {email} уже зарегестрирована")
     pat = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
     if not re.match(pat, email):
         raise SyntaxError(f"Адрес почты: {email} неправильный")
     user = User()
     user.email = email
-    user.username = username
+    user.name = username
 
     user.password = generate_password_hash(password)
     db.session.add(user)

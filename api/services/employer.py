@@ -21,14 +21,14 @@ def create_employer(name):
     return employer
 
 
-def add_user(user_id, employer_id):
+def add_user_to_employer(user_id, employer_id):
     user = db.session.query(User).get(user_id)
     if user is None:
         raise IndexError(f"Пользователь с id {user_id} не найден")
     employer = db.session.query(Employer).get(employer_id)
     if employer is None:
-        raise IndexError(f"Работодатель с id {user_id} не найден")
+        raise IndexError(f"Работодатель с id {employer} не найден")
     employer.users.append(user)
     user.employers.append(employer)
-
     db.session.commit()
+    return True
