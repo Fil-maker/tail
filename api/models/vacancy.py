@@ -23,4 +23,4 @@ class Vacancy(db.Model, ISO8601SerializerMixin):
     def to_dict(self, *args, **kwargs):
         if "only" in kwargs:
             return super(Vacancy, self).to_dict(*args, **kwargs)
-        return super(Vacancy, self).to_dict(*args, **kwargs, only=["id", "name"])
+        return super(Vacancy, self).to_dict(*args, **kwargs, only=["id", "name", "description", "employer_id"])

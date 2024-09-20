@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block styles %}
+<link rel="stylesheet" href="/static/css/register_employer/style.css">
+{% endblock %}
+
+{% block header %}
+<div class="text-center w-100">
+    <h1>Регистрация работодателя</h1>
+</div>
+{% endblock %}
+
+{% block content %}
+<form method="post" enctype="multipart/form-data" class="col-12 d-flex flex-column align-items-center">
+    {{ form.hidden_tag() }}
+
+    {% for item in form.items %}
+    <div class="form-item">
+        {{ item.label }}
+        {{ item() }}
+        <div class="invalid-feedback">
+            {% for error in item.errors %}
+            <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+    <div class="mt-3 form-item confirm-item" id="submit">
+        {{ form.submit() }}
+        <a class="button btn btn-primary" href="/">Отмена</a>
+    </div>
+</form>
+{% endblock %}

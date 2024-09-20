@@ -12,5 +12,7 @@ else:
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.environ.get("APP_SECRET")
 
-
 from controllers import main
+from app.controllers.ajax_controllers import ajax
+
+app.register_blueprint(ajax, url_prefix="/ajax")

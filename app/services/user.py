@@ -87,9 +87,12 @@ def register_from_form(form: FlaskForm) -> bool:
             form.password.render_kw["class"] = "form-control is-invalid"
             form.password.errors.append("Ненадёжный пароль")
             return False
-        data = register_user(form.nick.data, form.name.data, form.password.data)
+        data = register_user(form.email.data, form.name.data, form.password.data)
         if data["success"]:
             return True
+        message = data['message'].replace("'", "")
+        form.email.render_kw["class"] = "form-control is-invalid"
+        form.email.errors.append(f"{message}")
     return False
 
 
@@ -135,3 +138,9 @@ def is_password_secure(password: str) -> bool:
                 password.isalpha() or
                 password.islower() or
                 password.isupper())
+
+
+def get_users_by_name(name):
+    response = requests.get(f"{api_url}/get_by_name/{name}")
+    data = response.json()
+    return data

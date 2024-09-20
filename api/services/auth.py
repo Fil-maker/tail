@@ -15,7 +15,7 @@ token_auth = HTTPTokenAuth()
 
 @basic_auth.verify_password
 def verify_password(username, password):
-    user = db.session.query(User).filter(or_(User.email == username, User.name == username)).first()
+    user = db.session.query(User).filter(User.email == username).first()
     if user is None:
         return False
     if check_password_hash(user.password, password):

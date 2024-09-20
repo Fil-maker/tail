@@ -17,4 +17,8 @@ class User(db.Model, ISO8601SerializerMixin):
     def to_dict(self, *args, **kwargs):
         if "only" in kwargs:
             return super(User, self).to_dict(*args, **kwargs)
-        return super(User, self).to_dict(*args, **kwargs, only=["id", "name", "email"])
+        ans = super(User, self).to_dict(*args, **kwargs, only=["id", "name", "email"])
+        ans["reputation"] = len(self.employers)
+        ans["employers"] = [employer.to_dict(only=["id", "name", "description"]) for employer in self.employers]
+        ans["subscriptions"] = [employer.to_dict(only=["id", "name", "description"]) for employer in self.subscriptions]
+        return ans

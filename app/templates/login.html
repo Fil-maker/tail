@@ -2,26 +2,42 @@
 {% block styles %}
 <link rel="stylesheet" href="/static/css/main_page/style.css">
 {% endblock %}
+{% block header %}
+<div class="w-100 flex-fill align-self-center">
+<!--    <a href="/logout">Выйти</a>-->
+</div>
+<div class="w-100 flex-fill align-self-center">
+    <h1>Авторизация</h1>
+</div>
+<div class="w-100 flex-fill align-self-center text-end">
+    <a href="/logout" class="btn btn-danger">Выйти</a>
+</div>
+{% endblock %}
 {% block content %}
-<h1>Авторизация</h1>
-    <div class="col-12 d-flex flex-column align-items-center">
-
-        <form method="post" enctype="multipart/form-data" class="sign-in d-flex flex-column" name="signin"
-              id="sign-in-form">
-            {{ form.hidden_tag() }}
-            <label>Логин</label>
-            {{ form.login(type="text", id="login", placeholder="RedTeam", autofocus="required") }}
-            <label>Пароль</label>
+<div class="mb-3 col-12 d-flex flex-column align-items-center">
+    <form method="post" enctype="multipart/form-data" class="sign-in d-flex flex-column" name="signin"
+          id="sign-in-form">
+        {{ form.hidden_tag() }}
+        <div class="mb-2">
+            <label class="form-label">Электронная почта</label>
+            {{ form.login(type="text", id="login", placeholder="example@ex.ex", autofocus="required") }}
+        </div>
+        <div class="mb-4">
+            <label class="form-label">Пароль</label>
             {{ form.password(type="password", id="password", placeholder="*********", autofocus="required") }}
-            <div class="invalid-feedback">
-                {% for item in form.items %}
-                {% for error in item.errors %}
-                <span class="error">{{ error }}</span>
-                {% endfor %}
-                {% endfor %}
-            </div>
-            <br>
-            <button type="submit">Войти</button>
-        </form>
-    </div>
+        </div>
+        <div class="invalid-feedback">
+            {% for item in form.items %}
+            {% for error in item.errors %}
+            <span class="error">{{ error }}</span>
+            {% endfor %}
+            {% endfor %}
+        </div>
+        <button type="submit" class="btn btn-primary">Войти</button>
+    </form>
+</div>
+<div class="col-12 align-items-center text-center">
+    <div>Не зарегестрированы?</div>
+    <a href="/signup" class="btn btn-success">Зарегистрироваться</a>
+</div>
 {% endblock %}

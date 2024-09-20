@@ -18,11 +18,11 @@ class EmployerResource(Resource):
 
         kwargs = parser.parse_args(strict=True)
         try:
-            response = add_user_to_employer(kwargs["user_id"], employer_id)
-        except KeyError as e:
+            employer = add_user_to_employer(kwargs["user_id"], employer_id)
+        except Exception as e:
             return jsonify({"success": False, "message": str(e), "error_code": 400})
         else:
-            return jsonify({"success": True})
+            return jsonify({"success": True, "employer": employer.to_dict()})
 
 
 class EmployerListResource(Resource):
@@ -32,11 +32,12 @@ class EmployerListResource(Resource):
     def post(self):
         parser = RequestParser()
         parser.add_argument("name", required=True)
+        parser.add_argument("description", required=True)
 
         kwargs = parser.parse_args(strict=True)
         try:
             employer = create_employer(**kwargs)
         except KeyError as e:
-            return jsonify({"success": False, "message": str(e)}), 400
+            return jsonify({"success": False, "message": str(e), "error_code": 400})
         else:
             return jsonify({"success": True, "employer": employer.to_dict()})

@@ -4,7 +4,7 @@ from wtforms.validators import DataRequired
 
 
 class LoginForm(FlaskForm):
-    label = "login"
+    label = "Электронная почта"
     login = StringField(label, validators=[DataRequired()], render_kw={
         "class": "form-control",
         "required": True,

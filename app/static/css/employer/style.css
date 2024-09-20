@@ -1,0 +1,6 @@
+h1{
+    width: max-content;
+}
+.cs-employees, .cs-vacancies, .cs-reviews{
+    overflow: overlay;
+}

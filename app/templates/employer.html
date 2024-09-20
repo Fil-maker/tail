@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% set page_header = "Работодатель '" + employer["name"] + "'" %}
+{% block styles %}
+<link rel="stylesheet" href="/static/css/employer/style.css">
+{% endblock %}
+
+{% set ns = namespace(found=false, employee=false) %}
+
+{% for subscriber in employer["subscribers"] %}
+    {% if subscriber["id"] == user["id"] %}
+        {% set ns.found = true %}
+    {% endif %}
+{% endfor %}
+
+{% for employee in employer["users"] %}
+    {% if employee["id"] == user["id"] %}
+        {% set ns.employee = true %}
+    {% endif %}
+{% endfor %}
+
+{% block header %}
+<div class="w-100 flex-fill align-self-center">
+    <a href="/" class="btn btn-outline-info">На главную</a>
+</div>
+<div class="text-center w-100">
+    <h1>Работодатель '{{ employer["name"] }}'</h1>
+</div>
+<div class="align-self-center text-end w-100">
+    <a href="/logout" class="btn btn-danger">Выйти</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-4">
+        <div class="mb-3">
+<!--            <div>Рейтинг: {{ employer["score"] }}</div>-->
+            <div class="d-flex justify-content-between w-100">
+                <div>
+                    {% if ns.found %}
+                        <button type="button" class="btn btn-secondary js-unsubscribe">Отписаться</button>
+                    {% else %}
+                        <button type="button" class="btn btn-danger js-subscribe">Подписаться</button>
+                {% endif %}
+                </div>
+                <div>
+                    {% if ns.employee %}
+                        <a href="/employer/{{ employer['id'] }}/new-vacancy" class="btn btn-primary">Создать вакансию</a>
+<!--                        <a href="/employer/{{ employer['id'] }}/replies" class="btn btn-primary">Просмотреть заявки</a>-->
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <div>Описание:</div>
+            <textarea style="width:100%; max-height:400px; min-height:200px; height: 300px;" disabled>{{ employer["description"] }}</textarea>
+        </div>
+<!--        <div class="mb-3">-->
+<!--            {% if employer["ratings"] | length == 0 %}-->
+<!--                <p>У компании ещё нет отзывов</p>-->
+<!--            {% else %}-->
+<!--                <p>Отзывы:</p>-->
+<!--                <div class="cs-reviews">-->
+<!--                    {% for rating in employer["ratings"] %}-->
+<!--                        <div class="mb-2">-->
+<!--                            <p>Оценка: {{ rating["rating"] }}</p>-->
+<!--                            <p>Комментарий: {{ rating["comment"] }}</p>-->
+<!--                        </div>-->
+<!--                    {% endfor %}-->
+<!--                </div>-->
+<!--            {% endif %}-->
+<!--        </div>-->
+    </div>
+    <div class="col-4">
+            <h2>Работники:</h2>
+            {% if employer["users"] | length == 0 %}
+                <div class="mb-2">Работников нет</div>
+            {% endif %}
+            {% if ns.employee %}
+                <div class="mb-5">
+                    <h3>Добавить работников</h3>
+                    <form class="js-employee-search w-100 d-inline-flex justify-content-around mb-3">
+                        <input type="text" name="username" class="form-control w-75">
+                        <input type="submit" class="btn-outline-primary" value="🔍">
+                    </form>
+                    <div class="js-employee-results">
+                    </div>
+                </div>
+            {% endif %}
+            <div class="mh-25 h-50 cs-employees">
+                <ul>
+                {% for employee in employer["users"] %}
+                    <li>
+                        <div class="d-block">
+                            <strong>{{ employee["name"] }}</strong>
+                            <div>Репутация: {{ employee["reputation"] }}</div>
+<!--                            <div class="text-end">-->
+<!--                                <a href="/{{ employee['id'] }}" class="btn btn-outline-success">Посмотреть профиль</a>-->
+<!--                            </div>-->
+                        </div>
+                    </li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+    <div class="col-4">
+        <h2>Вакансии:</h2>
+        {% if employer["vacancies"] | length == 0 %}
+        <div class="mb-2">Вакансий ещё нет</div>
+        {% endif %}
+        <div class="mh-75 cs-vacancies">
+            {% for vacancy in employer["vacancies"] %}
+            <div class="mb-2">
+                <div>{{ vacancy["name"] }}</div>
+                <div>{{ vacancy["description"] }}</div>
+                <div class="text-end">
+                    {% if ns.employee %}
+                    <a href="/employer/{{ employer['id'] }}/check/{{ vacancy['id'] }}" class="btn btn-primary">Просмотреть заявки</a>
+                    {% endif %}
+                    <a href="/employer/{{ employer['id'] }}/reply/{{ vacancy['id'] }}" class="btn btn-outline-success">Откликнуться</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        user_id = {{ user["id"] }}
+        employer_id = {{ employer["id"] }}
+        subscribed = {% if ns.found %} 1 {% else %} 0 {% endif %}
+    </script>
+    <script src="/static/js/employer/index.js"></script>
+{% endblock %}

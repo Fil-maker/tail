@@ -1,5 +1,58 @@
 {% extends 'base.html' %}
 
+{% block header %}
+<div class="w-100 flex-fill align-self-center">
+    <!--    <h1>Авторизация</h1>-->
+</div>
+<div class="w-100 flex-fill align-self-center">
+    <h1>Доступные вакансии</h1>
+</div>
+<div class="w-100 flex-fill align-self-center text-end">
+    <a href="/logout" class="btn btn-danger">Выйти</a>
+</div>
+{% endblock %}
+
 {% block content %}
-    {{ user }}
+<div class="row">
+    <div class="col-4">
+        <h2>Ваши компании</h2>
+        <a href="/new-employer" class="btn btn-outline-success">Новая компания</a>
+        <div class="mt-3">
+            {% for employer in user['employers'] %}
+                <div class="mb-2 d-inline-flex justify-content-between w-100">
+                    <div class="w-75">Компания: {{ employer['name'] }}</div>
+                    <div class="w-25"><a href="/employer/{{ employer['id'] }}" class="btn btn-primary">Перейти</a></div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="col-4">
+        <h2>Ваши подписки</h2>
+        <div class="mt-3">
+            {% for employer in user['subscriptions'] %}
+                <div class="mb-2 d-inline-flex justify-content-between w-100">
+                    <div class="w-75">Компания: {{ employer['name'] }}</div>
+                    <div class="w-25"><a href="/employer/{{ employer['id'] }}" class="btn btn-primary">Перейти</a></div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="col-4">
+        <h2>Вакансии:</h2>
+        {% if vacancies | length == 0 %}
+        <div class="mb-2">Вакансий ещё нет</div>
+        {% endif %}
+        <div class="mh-75 cs-vacancies">
+            {% for vacancy in vacancies %}
+            <div class="mb-2">
+                <div>{{ vacancy["name"] }}</div>
+                <div>{{ vacancy["description"] }}</div>
+                <div class="text-end">
+                    <a href="/employer/{{ vacancy['employer_id'] }}/reply/{{ vacancy['id'] }}" class="btn btn-outline-success">Откликнуться</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<div class="w-100 flex-fill align-self-center">
+    <a href="/" class="btn btn-outline-info">На главную</a>
+</div>
+<div class="text-center w-100">
+    <h1>Вакансия '{{ vacancy["name"] }}' в '{{ employer["name"] }}'</h1>
+</div>
+<div class="align-self-center text-end w-100">
+    <a href="/logout" class="btn btn-danger">Выйти</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-4">
+        {% for reply in replies %}
+            <div class="mb-4">
+                <h3>{{ reply["user"]["name"] }}</h3>
+                <div>Репутация: {{ reply["user"]["reputation"] }}</div>
+                <div class="d-inline-flex justify-content-between w-100 mb-2">
+                    <div class="w-25"><a href="/download/{{ reply['resume_link'] }}" class="btn btn-primary">Резюме</a></div>
+                    <div class="w-75"><a href="/download/{{ reply['cv_link'] }}" class="btn btn-secondary">Сопроводительное письмо</a></div>
+                </div>
+                <div class="d-inline-flex justify-content-between w-100">
+                    <div class="w-50">Статус: {% if not reply["status"] %} Подано {% else %} Подтверждено {% endif %}</div>
+                    {% if not reply["status"] %}
+                        <div class="w-50"><button type="button" class="btn btn-outline-success js-apply-reply" value="{{ reply['id'] }}">Подтвердить</button></div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="col-4">
+        <h2>Описание вакансии</h2>
+        <div class="mb-2">
+            <h3 class="mb-2">{{ vacancy["name"] }}</h3>
+            <textarea style="width:100%; max-height:400px; min-height:200px; height: 300px;" disabled>{{ vacancy["description"] }}</textarea>
+            <div class="text-end">
+            </div>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="mb-2">
+            <h2>Описание компании</h2>
+            <h3><a href="/employer/{{ employer['id'] }}">{{ employer["name"] }}</a></h3>
+            <textarea style="width:100%; max-height:400px; min-height:200px; height: 300px;" disabled>{{ employer["description"] }}</textarea>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        user_id = {{ user["id"] }}
+        employer_id = {{ employer["id"] }}
+        vacancy_id = {{ vacancy["id"] }}
+    </script>
+    <script src="/static/js/check/index.js"></script>
+{% endblock %}

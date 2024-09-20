@@ -19,4 +19,7 @@ class Reply(db.Model, ISO8601SerializerMixin):
     def to_dict(self, *args, **kwargs):
         if "only" in kwargs:
             return super(Reply, self).to_dict(*args, **kwargs)
-        return super(Reply, self).to_dict(*args, **kwargs, only=["id", "resume_link", "cv_link"])
+        ans = super(Reply, self).to_dict(*args, **kwargs, only=["id", "status", "resume_link", "cv_link"])
+        ans["employer_id"] = self.vacancy.employer_id
+        ans["user"] = self.user.to_dict()
+        return ans

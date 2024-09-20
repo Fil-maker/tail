@@ -4,28 +4,28 @@ from wtforms.validators import DataRequired
 
 
 class RegisterForm(FlaskForm):
-    label = "Name"
+    label = "Имя"
     name = StringField(label, validators=[DataRequired()], render_kw={
         "required": True,
         "type": "name",
         "placeholder": label
     })
 
-    label = "login"
-    nick = StringField(label, validators=[DataRequired()], render_kw={
+    label = "Электронная почта"
+    email = StringField(label, validators=[DataRequired()], render_kw={
         "required": True,
         "type": "login",
         "placeholder": label
     })
 
-    label = "Password"
+    label = "Пароль"
     password = PasswordField(label, validators=[DataRequired()], render_kw={
         "required": True,
         "type": "password",
         "placeholder": label
     })
 
-    label = "Repeat password"
+    label = "Повторите пароль"
     password_again = PasswordField(label, validators=[DataRequired()], render_kw={
         "required": True,
         "type": "password",
@@ -44,8 +44,8 @@ class RegisterForm(FlaskForm):
     def __init__(self, *args, **kwargs):
         super(RegisterForm, self).__init__(*args, **kwargs)
         default = "form-control"
-        self.items = [self.nick, self.name, self.password, self.password_again]
-        self.nick.render_kw["class"] = default
+        self.items = [self.name, self.email, self.password, self.password_again]
+        self.email.render_kw["class"] = default
         self.name.render_kw["class"] = default
         self.password.render_kw["class"] = default
         self.password_again.render_kw["class"] = default

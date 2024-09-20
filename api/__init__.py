@@ -30,16 +30,6 @@ with app.app_context():
 api = Api(app)
 migrate = Migrate(app, db)
 
-# from api.services.chat import add_user
-# usr = User(name="name", email="email")
-# cht = Chat(name="nameChat")
-# add_user(usr.id, cht.id)
-# emp = Employer(name="comp")
-# empRat = EmployerRating(comment="super cool", rating=10)
-# emp.ratings.append(empRat)
-# emp.users.append(usr)
-# usr.employer_ratings.append(empRat)
-# print(emp.users, emp.ratings, usr.employer_ratings, emp.ratings_by_users)
 
 from api.resources.user import UserResource, UserListResource
 
@@ -55,5 +45,10 @@ from api.resources.vacancy import VacancyResource, VacancyListResource
 
 api.add_resource(VacancyResource, "/api/vacancies/<int:vacancy_id>")
 api.add_resource(VacancyListResource, "/api/vacancies")
+
+from api.resources.reply import ReplyResource, ReplyListResource
+
+api.add_resource(ReplyResource, "/api/replies/<int:reply_id>", methods=["GET", "DELETE"])
+api.add_resource(ReplyListResource, "/api/replies")
 
 from api import controllers

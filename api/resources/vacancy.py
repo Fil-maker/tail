@@ -25,13 +25,15 @@ class VacancyListResource(Resource):
 
     def post(self):
         parser = RequestParser()
+        parser.add_argument("user_id", type=int, required=True)
+        parser.add_argument("employer_id", type=int, required=True)
         parser.add_argument("name", required=True)
         parser.add_argument("description", required=True)
 
         kwargs = parser.parse_args(strict=True)
         try:
             vacancy = create_vacancy(**kwargs)
-        except KeyError as e:
+        except Exception as e:
             return jsonify({"success": False, "message": str(e), "error_code": 400})
         else:
             return jsonify({"success": True, "vacancy": vacancy.to_dict()})

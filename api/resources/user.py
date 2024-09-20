@@ -24,7 +24,6 @@ class UserListResource(Resource):
         parser.add_argument("password", required=True)
 
         kwargs = parser.parse_args(strict=True)
-        print(1)
         try:
             user, token, expires = create_user(**kwargs)
         except KeyError as e:
