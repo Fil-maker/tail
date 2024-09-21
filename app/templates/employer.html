@@ -19,23 +19,23 @@
 {% endfor %}
 
 {% block header %}
-<div class="w-100 flex-fill align-self-center">
+<div class="w-50 flex-fill align-self-center">
     <a href="/" class="btn btn-outline-info">На главную</a>
 </div>
-<div class="text-center w-100">
-    <h1>Работодатель '{{ employer["name"] }}'</h1>
-</div>
-<div class="align-self-center text-end w-100">
+<div class="align-self-center text-end w-50">
     <a href="/logout" class="btn btn-danger">Выйти</a>
+</div>
+<div class="text-center w-100">
+    <h1 style="width: auto">Работодатель '{{ employer["name"] }}'</h1>
 </div>
 {% endblock %}
 
 {% block content %}
 <div class="row">
-    <div class="col-4">
+    <div class="col-12">
         <div class="mb-3">
 <!--            <div>Рейтинг: {{ employer["score"] }}</div>-->
-            <div class="d-flex justify-content-between w-100">
+            <div class="d-flex justify-content-between flex-wrap w-100">
                 <div>
                     {% if ns.found %}
                         <button type="button" class="btn btn-secondary js-unsubscribe">Отписаться</button>
@@ -71,7 +71,7 @@
 <!--            {% endif %}-->
 <!--        </div>-->
     </div>
-    <div class="col-4">
+    <div class="col-12">
             <h2>Работники:</h2>
             {% if employer["users"] | length == 0 %}
                 <div class="mb-2">Работников нет</div>
@@ -93,7 +93,7 @@
                     <li>
                         <div class="d-block">
                             <strong>{{ employee["name"] }}</strong>
-                            <div>Репутация: {{ employee["reputation"] }}</div>
+<!--                            <div>Репутация: {{ employee["reputation"] }}</div>-->
 <!--                            <div class="text-end">-->
 <!--                                <a href="/{{ employee['id'] }}" class="btn btn-outline-success">Посмотреть профиль</a>-->
 <!--                            </div>-->
@@ -103,7 +103,7 @@
                 </ul>
             </div>
         </div>
-    <div class="col-4">
+    <div class="col-12">
         <h2>Вакансии:</h2>
         {% if employer["vacancies"] | length == 0 %}
         <div class="mb-2">Вакансий ещё нет</div>
@@ -115,7 +115,7 @@
                 <div>{{ vacancy["description"] }}</div>
                 <div class="text-end">
                     {% if ns.employee %}
-                    <a href="/employer/{{ employer['id'] }}/check/{{ vacancy['id'] }}" class="btn btn-primary">Просмотреть заявки</a>
+                    <a href="/employer/{{ employer['id'] }}/check/{{ vacancy['id'] }}" class="btn btn-primary mb-1">Просмотреть заявки</a>
                     {% endif %}
                     <a href="/employer/{{ employer['id'] }}/reply/{{ vacancy['id'] }}" class="btn btn-outline-success">Откликнуться</a>
                 </div>

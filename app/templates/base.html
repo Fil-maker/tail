@@ -15,21 +15,21 @@ minimum-scale=1.0">
     {% endblock %}
 </head>
 <body>
-<div class="container">
-    <div class="mb-5 d-flex justify-content-between">
+<div class="container mb-5">
+    <div class="w-100 mb-5 mt-3 d-inline-flex flex-wrap justify-content-between">
         {% block header %}
         <div class="w-100 flex-fill align-self-center">
             <!--    <h1>Авторизация</h1>-->
         </div>
-        <div class="w-100 flex-fill align-self-center text-center">
-            <h1>{{ page_header }}</h1>
-        </div>
         <div class="w-100 flex-fill align-self-center text-end">
             <a href="/logout" class="btn btn-danger">Выйти</a>
         </div>
+        <div class="w-100 flex-fill align-self-center text-center">
+            <h1 style="width: auto">{{ page_header }}</h1>
+        </div>
         {% endblock %}
     </div>
-    <div class="row">
+    <div class="row w-100">
         <div class="col">
             {% block content %}
             {% endblock %}
